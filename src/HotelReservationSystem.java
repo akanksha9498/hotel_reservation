@@ -1,10 +1,5 @@
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Connection;
+import java.sql.*;
 import java.util.Scanner;
-import java.sql.Statement;
-import java.sql.ResultSet;
-
 
 
 public class HotelReservationSystem {
@@ -69,8 +64,12 @@ public class HotelReservationSystem {
 
     private static void reserveRoom(Connection connection, Scanner scanner) {
         try {
-            System.out.print("Enter guest name: ");
-            String guestName = scanner.next();
+            System.out.print("Enter guest first name: ");
+
+            String guest_fName = scanner.next();
+            System.out.print("Enter guest last name: ");
+            String guest_lname = scanner.next();
+            String guestName = guest_fName+" "+guest_lname;
             scanner.nextLine();
             System.out.print("Enter room number: ");
             int roomNumber = scanner.nextInt();
@@ -81,10 +80,12 @@ public class HotelReservationSystem {
                     "VALUES ('" + guestName + "', " + roomNumber + ", '" + contactNumber + "')";
 
             try (Statement statement = connection.createStatement()) {
+
                 int affectedRows = statement.executeUpdate(sql);
 
                 if (affectedRows > 0) {
-                    System.out.println("Reservation successful!");
+                    System.out.println("Reservation successful !");
+
                 } else {
                     System.out.println("Reservation failed.");
                 }
